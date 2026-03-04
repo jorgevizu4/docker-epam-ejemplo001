@@ -1,0 +1,33 @@
+name: CI Docker ejemplo001
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  test-server:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Usar Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Iniciar servidor
+        run: |
+          node index.js &
+          sleep 3
+
+      - name: Comprobar respuesta HTTP
+        run: |
+          curl -f http://localhost:3000
