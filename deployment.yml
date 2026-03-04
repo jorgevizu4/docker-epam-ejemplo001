@@ -1,21 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hola-node
+  name: ejemplo001
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: hola-node
+      app: ejemplo001
   template:
     metadata:
       labels:
-        app: hola-node
+        app: ejemplo001
     spec:
       containers:
-        - name: hola-node
-          image: node:18-alpine
+        - name: ejemplo001
+          image: ejemplo001:1.0
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
-          command: ["node"]
-          args: ["index.js"]
