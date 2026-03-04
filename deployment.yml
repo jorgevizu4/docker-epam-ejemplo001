@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hola-node
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hola-node
+  template:
+    metadata:
+      labels:
+        app: hola-node
+    spec:
+      containers:
+        - name: hola-node
+          image: node:18-alpine
+          ports:
+            - containerPort: 3000
+          command: ["node"]
+          args: ["index.js"]
