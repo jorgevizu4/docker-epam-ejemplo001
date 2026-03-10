@@ -1,0 +1,21 @@
+# Pod de utilidad usado para ejecutar comandos curl dentro del cluster.
+# Permite probar la conectividad a los servicios sin salir del namespace.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: curl-test
+  namespace: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: curl-test
+  template:
+    metadata:
+      labels:
+        app: curl-test
+    spec:
+      containers:
+      - name: curl
+        image: curlimages/curl:8.1.2
+        command: ["sleep","infinity"] # se mantiene activo para poder exec

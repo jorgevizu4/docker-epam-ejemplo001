@@ -1,0 +1,39 @@
+# Deployment que lanza un pod con la imagen oficial de Redis.
+# Mantiene una réplica única.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: demo
+  labels:
+    app: redis                # etiqueta que identifica el conjunto de pods
+spec:
+  replicas: 1                # sólo un pod
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:7       # versión 7 de Redis
+          ports:
+            - containerPort: 6379  # puerto por el que Redis escucha
+---
+# Service de tipo ClusterIP para permitir que otros pods accedan a Redis
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  namespace: demo
+spec:
+  selector:
+    app: redis                 # apunta al pod gestionado por el Deployment
+  ports:
+    #- protocol: TCP
+    - port: 6379              # puerto del servicio dentro del cluster
+      targetPort: 6379        # mismo puerto en el contenedor
+  type: ClusterIP            # no expone fuera del cluster

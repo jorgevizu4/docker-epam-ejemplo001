@@ -2,5 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - deployment.yml
-  - service.yml
+  - namespace.yml
+  - ejemplo001/deployment.yml    # app ejemplo001
+  - ejemplo001/service.yml       # app ejemplo001
+  - redis/redis.yml
+  - postgres/postgres.yml
+  - curl-test/curl-test-pod.yml
